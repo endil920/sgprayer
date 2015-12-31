@@ -1,0 +1,12 @@
+{
+"name": "sgprayer",
+"version": "0.0.1",
+"description": "a simple app to submit prayer requests in a place that is easily viewable",
+"repository": {
+  "type": "git",
+  "url": "https://github.com/endil920/sgprayer.git"
+},
+"dependencies": {
+  "express": "4.13.x"
+}
+}
