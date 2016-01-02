@@ -1,0 +1,17 @@
+<div class="jumbotron">
+	<div class="container">
+		<h1>Welcome to SG Prayer</h1>
+		<h3>{{updateCtrl.group}}</h3>
+		<p>Please input your prayer request here</p>
+		<div class="form-group">
+			<label for="usr">Name:</label>
+			<input type="text" id="usr" ng-model="updateCtrl.name">
+		</div>
+		<br><textarea class="form-control" rows="4" cols="50" ng-model="updateCtrl.message">
+
+		</textarea>
+		<br>
+		<p><a class="btn btn-primary btn-lg" href="#" role="button" ng-click="updateCtrl.submit()">Submit</a></p>      
+
+	</div>
+</div>

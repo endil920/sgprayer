@@ -1,30 +1,31 @@
 <!doctype html>
-<html lang="en" ng-app="sgPrayerApp">
+<html lang="en">
 	<head>
+		<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-route.js"></script>
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+		<script src="js/sgPrayerApp.js"></script>
+		<base href="/">
 	</head>
-	<body>
-		<div class="jumbotron">
-			<div class="container">
-				<h1>Welcome to SG Prayer</h1>
-				<p>Please input your prayer request here</p>
-				<div class="form-group">
-					<label for="usr">Name:</label>
-					<input type="text" id="usr">
+	<body ng-app="sgPrayerApp">
+		<div class="container" ng-controller="MainCtrl as mainCtrl">
+			<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">{{mainCtrl.group}}</a>
 				</div>
-				<label>Small Group:</label>	
-				<select>
-					<option value="SG1">SG1</option>
-					<option value="SG2">SG2</option>
-				</select>
-				<br><textarea class="form-control" rows="4" cols="50">
+				<div>
+					<ul class="nav navbar-nav">
+						<li><a href="update/{{mainCtrl.group}}">update</a></li>
+						<li><a href="summary/{{mainCtrl.group}}">overview</a></li>
+					</ul>
+				</div>
+			</div>
 
-				</textarea>
-				<br>
-				<p><a class="btn btn-primary btn-lg" href="#" role="button">Submit</a></p>	
-
+			<div ng-view>
 			</div>
 		</div>
 	</body>
