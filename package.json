@@ -1,15 +1,16 @@
 {
-"name": "sgprayer",
-"version": "0.0.1",
-"description": "a simple app to submit prayer requests in a place that is easily viewable",
-"repository": {
-  "type": "git",
-  "url": "https://github.com/endil920/sgprayer.git"
-},
-"dependencies": {
-  "express": "4.13.x",
-     "jade": "~0.31.2",
-"body-parser": "1.14.2"
-
-}
+	"name": "sgprayer",
+		"version": "0.0.1",
+		"description": "a simple app to submit prayer requests in a place that is easily viewable",
+		"repository": {
+			"type": "git",
+			"url": "https://github.com/endil920/sgprayer.git"
+		},
+		"dependencies": {
+			"express": "4.13.x",
+			"jade": "~0.31.2",
+			"body-parser": "1.14.2",
+			"mongoose": "4.3.4",
+		"mongoose-findorcreate": "0.1.2"	
+		}
 }
