@@ -8,7 +8,8 @@
 },
 "dependencies": {
   "express": "4.13.x",
-     "jade": "~0.31.2"
+     "jade": "~0.31.2",
+"body-parser": "1.14.2"
 
 }
 }
