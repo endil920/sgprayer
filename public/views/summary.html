@@ -1,1 +1,11 @@
-this is the overview page for {{summaryCtrl.group}}
+<div class="jumbotron">
+	<div class="container">
+		<h1>Prayer Requests for this week</h1>
+		<ul>
+			<li ng-repeat="request in summaryCtrl.requests">
+			<b>{{request.name}}</b>
+			<p>{{request.message}}</p>
+			</li>
+		</ul>
+	</div>
+</div>
