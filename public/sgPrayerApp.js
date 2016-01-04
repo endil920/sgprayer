@@ -12,7 +12,7 @@ angular.module('sgPrayerApp', ['ngRoute'])
 		controllerAs: 'updateCtrl'
 	})
 	.when('/summary/:group', {
-		templateUrl: '/views/summary'
+		templateUrl: '/main'
 	})
 	.when('/:group', {
 		templateUrl: '/main'

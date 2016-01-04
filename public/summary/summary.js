@@ -13,9 +13,9 @@ angular.module('sgPrayerApp')
 .directive('requestsSummary', function() {
 	return {
 		restrict: 'E',
-		bindToController: true,
-		controller: 'SummaryCtrl',
-		controllerAs: 'summaryCtrl',
-		templateUrl: 'js/summary/summary.html'
+bindToController: true,
+controller: 'SummaryCtrl',
+controllerAs: 'summaryCtrl',
+templateUrl: 'summary/summary.html'
 	};
 });

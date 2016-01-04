@@ -54,15 +54,19 @@ app.get('/requestsPreviousWeek/:group', function(req, res) {
 	var groupName = req.params.group;
 	var date = req.params.date || new Date();
 	Group.findOne({name: groupName}, function(err, group) {
-		var weekBasis = group.meetingDay || 0;
-		var weekNumber = WeekCalculator.compute(date, weekBasis);
-		WeeklyRequests.findOne({group: group, weekNumber: weekNumber}, function(err, weeklyRequests) {
-			var requestsList = weeklyRequests.requests;
-			var result = requestsList.map(function(weeklyRequest) {
-				return {name: weeklyRequest.name, message: weeklyRequest.message};
+		if (group) {
+			var weekBasis = group.meetingDay || 0;
+			var weekNumber = WeekCalculator.compute(date, weekBasis);
+			WeeklyRequests.findOne({group: group, weekNumber: weekNumber}, function(err, weeklyRequests) {
+				var requestsList = weeklyRequests.requests;
+				var result = requestsList.map(function(weeklyRequest) {
+					return {name: weeklyRequest.name, message: weeklyRequest.message};
+				});
+				res.send(result);
 			});
-			res.send(result);
-		});
+		} else {
+			res.send(false);
+		}
 	});
 });
 app.get('/testget/:group', function(req, res) {
@@ -73,7 +77,7 @@ app.get('/testget/:group', function(req, res) {
 });
 
 app.get('/views/update', function(req, res) {
-	res.sendFile(__dirname + '/public/views/update.html');
+	res.sendFile(__dirname + '/public/views/add.html');
 });
 app.get('/views/summary', function(req, res) {
 	res.sendFile(__dirname + '/public/views/summary.html');
