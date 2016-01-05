@@ -2,16 +2,22 @@ var moment = require('moment');
 
 /* date is any date, beginning day is ISO format, from 1 to 7*/
 function subtractorFunc(d, b) {return d + (d < b ? 6 : - 1)}
-var compute = function(date, beginningDay) {
-	var dayOfWeek = moment(date).isoWeekday();
-	var subtractor = subtractorFunc(dayOfWeek, beginningDay);
-	var basisDay = moment(date).add(-1 * subtractor, 'days');
-
-	return basisDay.get('year') * 100 + basisDay.isoWeek();
+function compute(date, basis) {
+	var startDay = getStartOfWeek(date, basis);
+	return startDay.get('year') * 100 + startDay.isoWeek();
 };
-var subtract = function(date, beginningDay, weeks) {
+function subtract(date, beginningDay, weeks) {
 	var newDate = moment(date).subtract(weeks, 'week');
 	return compute(newDate, beginningDay);
 };
+function getStartOfWeek(date, basis) {
+	var dayOfWeek = moment(date).isoWeekday();
+	var subtractor = subtractorFunc(dayOfWeek, basis);
+	return moment(date).add(-1 * subtractor, 'days');
+};
+function getStartOfWeekDate(date, basis) {
+	return getStartOfWeek(date, basis).add(basis - 1, 'days').toDate();
+}
 module.exports.compute = compute;
 module.exports.subtract = subtract;
+module.exports.getStartOfWeek = getStartOfWeekDate;

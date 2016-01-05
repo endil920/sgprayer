@@ -1,6 +1,6 @@
 var WeekCalculator = require("../util/weekCalculator.js");
 
-describe("WeekCalculator", function() {
+describe("WeekCalculator compute", function() {
 	it("calculates week correctly with monday basis", function() {
 		expect(WeekCalculator.compute(new Date(2015,11,30), 1)).toBe(201553);
 		expect(WeekCalculator.compute(new Date(2016,0,1), 1)).toBe(201553);
@@ -26,9 +26,32 @@ describe("WeekCalculator", function() {
 		expect(WeekCalculator.compute(new Date(2016, 0, 14), 5)).toBe(201601);
 		expect(WeekCalculator.compute(new Date(2016, 0, 15), 5)).toBe(201602);
 	});
-	it("subtracts week correctly", function() {
+});
+describe("subtract", function() {
+	it("subtracts week correctly with monday basis", function() {
 		expect(WeekCalculator.subtract(new Date(2016, 0, 11), 1, 2)).toBe(201553);
 		expect(WeekCalculator.subtract(new Date(2016, 0, 11), 1, 0)).toBe(201602);
 	});
-
+	it("subtracts week correctly with sunday basis", function() {
+		expect(WeekCalculator.subtract(new Date(2016, 0, 11), 7, 2)).toBe(201552);
+		expect(WeekCalculator.subtract(new Date(2016, 0, 11), 7, 1)).toBe(201553);
+		expect(WeekCalculator.subtract(new Date(2016, 0, 11), 7, 0)).toBe(201601);
+	});
+});
+describe("week start", function() {
+	it("gets correctly for monday basis", function() {
+		expect(WeekCalculator.getStartOfWeek(new Date(2016, 0, 4), 1)).toEqual(new Date(2016, 0, 4));
+		expect(WeekCalculator.getStartOfWeek(new Date(2016, 0, 7), 1)).toEqual(new Date(2016, 0, 4));
+		expect(WeekCalculator.getStartOfWeek(new Date(2016, 0, 10), 1)).toEqual(new Date(2016, 0, 4));
+	});
+	it("gets correctly for wednesday basis", function() {
+		expect(WeekCalculator.getStartOfWeek(new Date(2016, 0, 6), 3)).toEqual(new Date(2016, 0, 6));
+		expect(WeekCalculator.getStartOfWeek(new Date(2016, 0, 9), 3)).toEqual(new Date(2016, 0, 6));
+		expect(WeekCalculator.getStartOfWeek(new Date(2016, 0, 12), 3)).toEqual(new Date(2016, 0, 6));
+	});
+	it("gets correctly for sunday basis", function() {
+		expect(WeekCalculator.getStartOfWeek(new Date(2016, 0, 3), 7)).toEqual(new Date(2016, 0, 3));
+		expect(WeekCalculator.getStartOfWeek(new Date(2016, 0, 6), 7)).toEqual(new Date(2016, 0, 3));
+		expect(WeekCalculator.getStartOfWeek(new Date(2016, 0, 9), 7)).toEqual(new Date(2016, 0, 3));
+	});
 });
