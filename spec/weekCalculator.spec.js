@@ -55,3 +55,20 @@ describe("week start", function() {
 		expect(WeekCalculator.getStartOfWeek(new Date(2016, 0, 9), 7)).toEqual(new Date(2016, 0, 3));
 	});
 });
+describe("week end", function() {
+	it("gets correctly for monday basis", function() {
+		expect(WeekCalculator.getEndOfWeek(new Date(2016, 0, 4), 1)).toEqual(new Date(2016, 0, 10));
+		expect(WeekCalculator.getEndOfWeek(new Date(2016, 0, 7), 1)).toEqual(new Date(2016, 0, 10));
+		expect(WeekCalculator.getEndOfWeek(new Date(2016, 0, 10), 1)).toEqual(new Date(2016, 0, 10));
+	});
+	it("gets correctly for wednesday basis", function() {
+		expect(WeekCalculator.getEndOfWeek(new Date(2016, 0, 6), 3)).toEqual(new Date(2016, 0, 12));
+		expect(WeekCalculator.getEndOfWeek(new Date(2016, 0, 9), 3)).toEqual(new Date(2016, 0, 12));
+		expect(WeekCalculator.getEndOfWeek(new Date(2016, 0, 12), 3)).toEqual(new Date(2016, 0, 12));
+	});
+	it("gets correctly for sunday basis", function() {
+		expect(WeekCalculator.getEndOfWeek(new Date(2016, 0, 3), 7)).toEqual(new Date(2016, 0, 9));
+		expect(WeekCalculator.getEndOfWeek(new Date(2016, 0, 6), 7)).toEqual(new Date(2016, 0, 9));
+		expect(WeekCalculator.getEndOfWeek(new Date(2016, 0, 9), 7)).toEqual(new Date(2016, 0, 9));
+	});
+});
