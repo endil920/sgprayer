@@ -6,11 +6,17 @@
 			"type": "git",
 			"url": "https://github.com/endil920/sgprayer.git"
 		},
+		"scripts": {
+			"test": "jasmine-node spec"
+		},
 		"dependencies": {
+			"body-parser": "1.14.2",
 			"express": "4.13.x",
 			"jade": "~0.31.2",
-			"body-parser": "1.14.2",
+			"jasmine-node": "^1.14.5",
+			"moment": "2.0.0",
 			"mongoose": "4.3.4",
-		"mongoose-findorcreate": "0.1.2"	
+			"mongoose-findorcreate": "0.1.2",
+			"request": "^2.67.0"
 		}
 }
