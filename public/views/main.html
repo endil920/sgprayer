@@ -10,7 +10,8 @@
 			<p>What day do you meet?<select ng-model="mainCtrl.day" ng-options="key for key in mainCtrl.days"></select></p>
 			<button class="btn btn-primary" type="submit" ng-click="mainCtrl.submit()">Register</button>	
 		</div>
-		<div ng-show="mainCtrl.msg" class="confirmation" ><a ng-ref="{{mainCtrl.lnk}}">{{mainCtrl.msg}}</a></div>
+		<div ng-show="mainCtrl.msg" class="confirmation"> <a target="_self" class="confirmation" ng-href="{{mainCtrl.lnk}}">{{mainCtrl.msg}}</a></div>
+
 		<div ng-show="mainCtrl.group">
 			<requests-summary></requests-summary>	
 		</div>

@@ -7,7 +7,8 @@ var models = require('./models/weeklyRequests');
 var WeeklyRequests = models.WeeklyRequests;
 var Group = models.Group;
 var WeekCalculator = require('./util/weekCalculator.js');
-mongoose.connect('mongodb://localhost/test');
+var config = require('./config/config.js');
+mongoose.connect(config.database);
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
