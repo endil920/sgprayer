@@ -20,14 +20,19 @@ app.get('/main', function(req, res) {
 app.post('/addgroup', function(req, res) {
 	var groupName = req.body.group;
 	var meetingDay = req.body.meetingDay;
-	Group.find({name: groupName}, function(err, group) {
+	console.log("the proposed meeting day is " + meetingDay);
+	Group.findOne({name: groupName}, function(err, group) {
+		console.log(group);
 		if (!group) {
+			console.log("group " + groupName + " did not exist. creating");
 			var group = new Group({meetingDay: meetingDay, name: groupName});
 			group.save(function(err) {
 				if (err) throw err;
+				console.log("successfully created");
 				res.send('created group successfully');
 			});
 		} else {
+			console.log("the group already existed");
 			res.send('group already exists');
 		} 
 	});
@@ -39,7 +44,8 @@ app.post('/addrequest/:group', function(req, res) {
 	var date = new Date();
 	Group.findOrCreate({name: groupName}, function(err, group) {
 		console.log('this is the group: ' + group);
-		WeeklyRequests.findOrCreate({group: group, weekNumber: -1}, function(err, requestsList) {
+		var weekNumber = WeekCalculator.compute(new Date(), group.meetingDay);
+		WeeklyRequests.findOrCreate({group: group, weekNumber: weekNumber}, function(err, requestsList) {
 			console.log('the requests list is ' + requestsList);
 			requestsList.requests.push({name: name, message: message, date: date});
 			requestsList.save(function(err) {
@@ -55,14 +61,17 @@ app.get('/requestsPreviousWeek/:group', function(req, res) {
 	var date = req.params.date || new Date();
 	Group.findOne({name: groupName}, function(err, group) {
 		if (group) {
-			var weekBasis = group.meetingDay || 0;
+			console.log(group);
+			var weekBasis = group.meetingDay || 1;
 			var weekNumber = WeekCalculator.compute(date, weekBasis);
-			WeeklyRequests.findOne({group: group, weekNumber: weekNumber}, function(err, weeklyRequests) {
+			WeeklyRequests.findOrCreate({group: group, weekNumber: weekNumber}, function(err, weeklyRequests) {
 				var requestsList = weeklyRequests.requests;
-				var result = requestsList.map(function(weeklyRequest) {
+				var simpleRequestsList = requestsList.map(function(weeklyRequest) {
 					return {name: weeklyRequest.name, message: weeklyRequest.message};
 				});
-				res.send(result);
+				var startDate = WeekCalculator.getStartOfWeek(date, weekBasis);
+				var endDate = WeekCalculator.getEndOfWeek(date, weekBasis);
+				res.send({requests: simpleRequestsList, startDate: startDate, endDate: endDate});
 			});
 		} else {
 			res.send(false);

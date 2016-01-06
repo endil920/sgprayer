@@ -4,28 +4,15 @@
 		<div ng-hide="mainCtrl.group">
 			<h1 class="text-center">	Welcome to SG Prayer!</h1>
 				<p>
-			It looks like you haven't specified a group. If you would like to register one, please register below! If you already have one, please enter the name below and hit submit
+			It looks like you haven't specified a group. If you would like to register one, please register below. If you already have one, please enter the name below and hit submit
 			</p>
-			What is your group's name?<input type-"text">
-
-			<div class="dropdown">
-				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">What day do you meet?
-					<span class="caret"></span></button>
-				<ul class="dropdown-menu">
-					<li><a href="#">Monday</a></li>
-					<li><a href="#">Tuesday</a></li>
-					<li><a href="#">Wednesday</a></li>
-					<li><a href="#">Thursday</a></li>
-					<li><a href="#">Friday</a></li>
-					<li><a href="#">Saturday</a></li>
-					<li><a href="#">Sunday</a></li>
-				</ul>
-			</div>
-
+			<p>What is your group's name?<input type-"text" ng-model="mainCtrl.newGroupName"></p>
+			<p>What day do you meet?<select ng-model="mainCtrl.day" ng-options="key for key in mainCtrl.days"></select></p>
+			<button class="btn btn-primary" type="submit" ng-click="mainCtrl.submit()">Register</button>	
 		</div>
+		<div ng-show="mainCtrl.msg" class="confirmation" ><a ng-ref="{{mainCtrl.lnk}}">{{mainCtrl.msg}}</a></div>
 		<div ng-show="mainCtrl.group">
 			<requests-summary></requests-summary>	
 		</div>
 	</div>
 </div>
-

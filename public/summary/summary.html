@@ -1,5 +1,6 @@
-<div ng-show="summaryCtrl.requests">
-	<h1>Prayer Requests for {{summaryCtrl.group}} this Week</h1>
+<div ng-show="summaryCtrl.summaryData">
+	<h1>Prayer Requests for {{summaryCtrl.group}}</h1>
+	<h3>{{summaryCtrl.startDate|date: shortDate}} to {{summaryCtrl.endDate|date: shortDate}}</h3>
 	<ul>
 		<li ng-repeat="request in summaryCtrl.requests">
 		<b>{{request.name}}</b>
@@ -7,6 +8,6 @@
 		</li>
 	</ul>
 </div>
-<div ng-hide="summaryCtrl.requests">
+<div ng-hide="summaryCtrl.summaryData">
 	No group {{summaryCtrl.group}} exists. Do you mean to register?
 </div>
