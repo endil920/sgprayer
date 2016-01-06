@@ -14,7 +14,7 @@
 			"express": "4.13.x",
 			"jade": "~0.31.2",
 			"jasmine-node": "^1.14.5",
-			"moment": "2.0.0",
+			"moment": "2.11.0",
 			"mongoose": "4.3.4",
 			"mongoose-findorcreate": "0.1.2",
 			"request": "^2.67.0"
