@@ -103,6 +103,6 @@ app.post('/request/:group', function(req, res) {
 	console.log(req.body);
 });
 
-
-app.listen(3000);
-console.log("listening on port 3000");
+var port = process.env.PORT;
+app.listen(port || 3000);
+console.log("listening on port " + port);
