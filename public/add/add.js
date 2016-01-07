@@ -8,8 +8,15 @@ angular.module('sgPrayerApp')
 		$http.post('/addrequest/' + view.group, {name: view.name, message: view.message}).then(function(success) {
 			view.name = '';
 			view.message = '';
+			view.confirmation = 'your request has been submitted. click on weekly requests to view all';
+			view.errorMsg = '';
 		}, function(error) {
+			view.confirmation = '';
+			view.errorMsg = 'request failed to submit. Please try again.';
 			console.log('did fail with message ' + error);	
 		});
+	};
+	view.isBlank = function() {
+		return view.message === '' && view.name ==='';
 	};
 }]);

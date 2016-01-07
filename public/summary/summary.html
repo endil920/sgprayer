@@ -1,5 +1,5 @@
 <div ng-show="summaryCtrl.summaryData">
-	<h1>Prayer Requests for {{summaryCtrl.group}}</h1>
+	<h2>Prayer Requests for {{summaryCtrl.group}}</h2>
 	<h3>{{summaryCtrl.startDate|date: shortDate}} to {{summaryCtrl.endDate|date: shortDate}}</h3>
 	<ul>
 		<li ng-repeat="request in summaryCtrl.requests">
@@ -9,5 +9,5 @@
 	</ul>
 </div>
 <div ng-hide="summaryCtrl.summaryData">
-	No group {{summaryCtrl.group}} exists. Do you mean to register?
+	No group {{summaryCtrl.group}} exists. Do you mean to <a target="_self" href="/">register?</a>
 </div>

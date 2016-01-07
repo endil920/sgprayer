@@ -1,6 +1,6 @@
 <div class="jumbotron">
 	<div class="container">
-		<h1>Prayer Requests for {{updateCtrl.group}}</h1>
+		<h2>Prayer Requests for {{updateCtrl.group}}</h2>
 		<p>Please input your prayer request here</p>
 		<div class="form-group">
 			<label for="usr">Name:</label>
@@ -10,7 +10,11 @@
 
 		</textarea>
 		<br>
-		<p><a class="btn btn-primary btn-lg" href="#" role="button" ng-click="updateCtrl.submit()">Submit</a></p>      
+		<div class="row"><a class="btn btn-primary btn-lg" href="#" role="button" ng-click="updateCtrl.submit()">Submit</a>
 
+
+			<span class="confirmation" ng-show="updateCtrl.confirmation && updateCtrl.isBlank()">{{updateCtrl.confirmation}}</span>
+			<span class="error" ng-show="updateCtrl.errorMsg && updateCtrl.isBlank()">{{updateCtrl.errorMsg}}</span>
+		</div>
 	</div>
 </div>
