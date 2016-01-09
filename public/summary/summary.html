@@ -1,6 +1,6 @@
 <div ng-show="summaryCtrl.summaryData">
 	<h2>Prayer Requests for {{summaryCtrl.group}}</h2>
-	<h3>{{summaryCtrl.startDate|date: shortDate}} to {{summaryCtrl.endDate|date: shortDate}}</h3>
+	<h3>{{summaryCtrl.startDate|date: 'MMM d, yyyy'}} to {{summaryCtrl.endDate|date: 'MMM d, yyyy'}}</h3>
 	<ul>
 		<li ng-repeat="request in summaryCtrl.requests">
 		<b>{{request.name}}</b>
