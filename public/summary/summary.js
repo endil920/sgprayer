@@ -9,8 +9,8 @@ angular.module('sgPrayerApp')
 		view.requests = view.summaryData.requests;
 		view.startDate = view.summaryData.startDate;
 		view.endDate = view.summaryData.endDate;
-		console.log('the start date should be ' + startDate);	
-		console.log('the end date should be ' + endDate);
+		console.log('the start date should be ' + view.startDate);	
+		console.log('the end date should be ' + view.endDate);
 		socket.emit('join', group);
 	});	
 	view.group = $routeParams.group;
