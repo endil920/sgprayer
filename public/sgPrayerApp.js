@@ -4,18 +4,24 @@ angular.module('sgPrayerApp', ['ngRoute'])
 .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 	$routeProvider
 	.when('/', {
-		templateUrl: '/main'
+		templateUrl: './views/main.html'
 	})
-	.when('/update/:group', {
-		templateUrl: '/views/update',
-		controller: 'UpdateCtrl',
-		controllerAs: 'updateCtrl'
+	.when('/:group/update', {
+		template: '<add-module></add-module>',
+		
+	
 	})
-	.when('/summary/:group', {
-		templateUrl: '/main'
+	.when('/:group/summary', {
+		templateUrl: './views/main.html'
+	})
+	.when('/about', {
+		templateUrl: './views/about.html'
 	})
 	.when('/:group', {
-		templateUrl: '/main'
+		templateUrl: './views/main.html'
+	})
+	.otherwise({
+		redirectTo: './views/main.html'
 	});
 	$locationProvider.html5Mode(true);
 }]);

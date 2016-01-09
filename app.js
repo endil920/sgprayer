@@ -87,31 +87,26 @@ app.get('/requestsPreviousWeek/:group', function(req, res) {
 	});
 
 });
-
-app.get('/views/update', function(req, res) {
-	res.sendFile(__dirname + '/public/views/add.html');
+app.get('/:group/*', function(req, res) {
+	res.redirect('/' + req.params.group);
 });
-app.get('/views/summary', function(req, res) {
-	res.sendFile(__dirname + '/public/views/summary.html');
-});
-
 app.get('/:group', function(req, res) {
-	res.sendFile(__dirname + '/public/index.html');
+res.sendFile(__dirname + '/public/index.html');
 });
 io.on('connection', function(socket) {
 
-	socket.on('requestSubmit', function(data) {
-		var room = roomMap[socket.id];
-		console.log(room);
-		console.log(roomMap);
-		console.log('and this socket ID is ' + socket.id);
-		socket.broadcast.to(room).emit('addRequest', data);	
-	});
-	socket.on('join', function(room) {
-		console.log(socket.id + ' is joining ' + room);
-		roomMap[socket.id] = room;
-		socket.join(room);
-	});
+socket.on('requestSubmit', function(data) {
+var room = roomMap[socket.id];
+console.log(room);
+console.log(roomMap);
+console.log('and this socket ID is ' + socket.id);
+socket.broadcast.to(room).emit('addRequest', data);	
+});
+socket.on('join', function(room) {
+console.log(socket.id + ' is joining ' + room);
+roomMap[socket.id] = room;
+socket.join(room);
+});
 
 });
 var port = process.env.PORT || 3000;

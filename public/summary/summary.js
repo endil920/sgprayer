@@ -8,6 +8,10 @@ angular.module('sgPrayerApp')
 		view.summaryData = response.data; 
 		view.requests = view.summaryData.requests;
 		view.startDate = view.summaryData.startDate;
+		console.log(view.requests);
+		console.log('those were the requests');
+		window.requests = view.requests;
+
 		view.endDate = view.summaryData.endDate;
 		console.log('the start date should be ' + view.startDate);	
 		console.log('the end date should be ' + view.endDate);

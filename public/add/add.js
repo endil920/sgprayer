@@ -22,4 +22,13 @@ angular.module('sgPrayerApp')
 	view.isBlank = function() {
 		return view.message === '' && view.name ==='';
 	};
-}]);
+}])
+.directive('addModule', function() {
+	return {
+		restrict: 'E',
+bindToController: true,
+controller: 'UpdateCtrl',
+controllerAs: 'updateCtrl',
+templateUrl: 'add/add.html'
+	};
+});

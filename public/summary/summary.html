@@ -1,4 +1,5 @@
 <div ng-show="summaryCtrl.summaryData">
+	<div ng-hide="summaryCtrl.requests.length === 0">
 	<h2>Prayer Requests for {{summaryCtrl.group}}</h2>
 	<h3>{{summaryCtrl.startDate|date: 'MMM d, yyyy'}} to {{summaryCtrl.endDate|date: 'MMM d, yyyy'}}</h3>
 	<ul>
@@ -7,6 +8,11 @@
 		<p>{{request.message}}</p>
 		</li>
 	</ul>
+	</div>
+	<div ng-show="summaryCtrl.requests.length === 0">
+		No prayer requests for this week yet.
+		<add-module></add-module>
+	</div>
 </div>
 <div ng-hide="summaryCtrl.summaryData">
 	No group {{summaryCtrl.group}} exists. Do you mean to <a target="_self" href="/">register?</a>
