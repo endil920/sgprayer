@@ -8,6 +8,9 @@ var WeeklyRequests = models.WeeklyRequests;
 var Group = models.Group;
 var WeekCalculator = require('./util/weekCalculator.js');
 var config = require('./config/config.js');
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+var roomMap = {};
 mongoose.connect(config.database);
 
 app.use(express.static('public'));
@@ -15,25 +18,28 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 app.engine('.html', require('jade').renderFile);
 
+
+var group; 
+
 app.get('/main', function(req, res) {
-  res.sendFile(__dirname + '/public/views/main.html');
+	res.sendFile(__dirname + '/public/views/main.html');
 });
 app.post('/addgroup', function(req, res) {
 	var groupName = req.body.group;
 	var meetingDay = req.body.meetingDay;
 	console.log("the proposed meeting day is " + meetingDay);
 	Group.findOne({name: groupName}, function(err, group) {
-		console.log(group);
+
 		if (!group) {
-			console.log("group " + groupName + " did not exist. creating");
+
 			var group = new Group({meetingDay: meetingDay, name: groupName});
 			group.save(function(err) {
 				if (err) throw err;
-				console.log("successfully created");
+
 				res.send('created group successfully');
 			});
 		} else {
-			console.log("the group already existed");
+
 			res.send('group already exists');
 		} 
 	});
@@ -44,14 +50,14 @@ app.post('/addrequest/:group', function(req, res) {
 	var message = req.body.message;
 	var date = new Date();
 	Group.findOrCreate({name: groupName}, function(err, group) {
-		console.log('this is the group: ' + group);
+
 		var weekNumber = WeekCalculator.compute(new Date(), group.meetingDay);
 		WeeklyRequests.findOrCreate({group: group, weekNumber: weekNumber}, function(err, requestsList) {
-			console.log('the requests list is ' + requestsList);
+
 			requestsList.requests.push({name: name, message: message, date: date});
 			requestsList.save(function(err) {
 				if (err) throw err;
-				console.log('saved new request for ' + name + ' successfully');
+
 			});
 			res.end();
 		});
@@ -59,10 +65,12 @@ app.post('/addrequest/:group', function(req, res) {
 });
 app.get('/requestsPreviousWeek/:group', function(req, res) {
 	var groupName = req.params.group;
+	group = groupName;
+
 	var date = req.params.date || new Date();
 	Group.findOne({name: groupName}, function(err, group) {
 		if (group) {
-			console.log(group);
+
 			var weekBasis = group.meetingDay || 1;
 			var weekNumber = WeekCalculator.compute(date, weekBasis);
 			WeeklyRequests.findOrCreate({group: group, weekNumber: weekNumber}, function(err, weeklyRequests) {
@@ -78,12 +86,7 @@ app.get('/requestsPreviousWeek/:group', function(req, res) {
 			res.send(false);
 		}
 	});
-});
-app.get('/testget/:group', function(req, res) {
-	var group = req.params.group;
-	WeeklyRequests.find({group: group, weekNumber: -1}, function(err, data) {
-		res.send(data);
-	});
+
 });
 
 app.get('/views/update', function(req, res) {
@@ -96,13 +99,23 @@ app.get('/views/summary', function(req, res) {
 app.get('/:group', function(req, res) {
 	res.sendFile(__dirname + '/public/index.html');
 });
+io.on('connection', function(socket) {
 
-app.post('/request/:group', function(req, res) {
-	//TODO: add to group collection
-	//TODO: trigger socket event for all others in the group
-	console.log(req.body);
+	socket.on('requestSubmit', function(data) {
+		var room = roomMap[socket.id];
+		console.log(room);
+		console.log(roomMap);
+		console.log('and this socket ID is ' + socket.id);
+		socket.broadcast.to(room).emit('addRequest', data);	
+	});
+	socket.on('join', function(room) {
+		console.log(socket.id + ' is joining ' + room);
+		roomMap[socket.id] = room;
+		socket.join(room);
+	});
+
 });
+var port = process.env.PORT || 3000;
+http.listen(port);
 
-var port = process.env.PORT;
-app.listen(port || 3000);
 console.log("listening on port " + port);

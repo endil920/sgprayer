@@ -1,22 +1,23 @@
 {
-	"name": "sgprayer",
-		"version": "0.0.1",
-		"description": "a simple app to submit prayer requests in a place that is easily viewable",
-		"repository": {
-			"type": "git",
-			"url": "https://github.com/endil920/sgprayer.git"
-		},
-		"scripts": {
-			"test": "jasmine-node spec"
-		},
-		"dependencies": {
-			"body-parser": "1.14.2",
-			"express": "4.13.x",
-			"jade": "~0.31.2",
-			"jasmine-node": "^1.14.5",
-			"moment": "2.11.0",
-			"mongoose": "4.3.4",
-			"mongoose-findorcreate": "0.1.2",
-			"request": "^2.67.0"
-		}
+  "name": "sgprayer",
+  "version": "0.0.1",
+  "description": "a simple app to submit prayer requests in a place that is easily viewable",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/endil920/sgprayer.git"
+  },
+  "scripts": {
+    "test": "jasmine-node spec"
+  },
+  "dependencies": {
+    "body-parser": "1.14.2",
+    "express": "4.13.x",
+    "jade": "~0.31.2",
+    "jasmine-node": "^1.14.5",
+    "moment": "2.11.0",
+    "mongoose": "4.3.4",
+    "mongoose-findorcreate": "0.1.2",
+    "request": "^2.67.0",
+    "socket.io": "^1.4.2"
+  }
 }

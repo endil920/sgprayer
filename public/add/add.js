@@ -6,6 +6,9 @@ angular.module('sgPrayerApp')
 	view.submit = function() {
 		console.log('submitting ' + view.name + ', ' + view.message);
 		$http.post('/addrequest/' + view.group, {name: view.name, message: view.message}).then(function(success) {
+
+			socket.emit('requestSubmit', 
+				{name: view.name, message: view.message});
 			view.name = '';
 			view.message = '';
 			view.confirmation = 'your request has been submitted. click on weekly requests to view all';
