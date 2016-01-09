@@ -4,6 +4,7 @@ angular.module('sgPrayerApp')
 	var view = this;
 	var group = $routeParams.group;
 	$http.get('/requestsPreviousWeek/' + group).then(function(response) {
+		console.log(response);
 		view.summaryData = response.data; 
 		view.requests = view.summaryData.requests;
 		view.startDate = view.summaryData.startDate;

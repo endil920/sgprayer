@@ -29,18 +29,15 @@ app.post('/addgroup', function(req, res) {
 	var meetingDay = req.body.meetingDay;
 	console.log("the proposed meeting day is " + meetingDay);
 	Group.findOne({name: groupName}, function(err, group) {
-
 		if (!group) {
 
 			var group = new Group({meetingDay: meetingDay, name: groupName});
 			group.save(function(err) {
 				if (err) throw err;
-
 				res.send('created group successfully');
 			});
 		} else {
-
-			res.send('group already exists');
+			res.send(false);
 		} 
 	});
 });
@@ -78,8 +75,10 @@ app.get('/requestsPreviousWeek/:group', function(req, res) {
 				var simpleRequestsList = requestsList.map(function(weeklyRequest) {
 					return {name: weeklyRequest.name, message: weeklyRequest.message};
 				});
+
 				var startDate = WeekCalculator.getStartOfWeek(date, weekBasis);
 				var endDate = WeekCalculator.getEndOfWeek(date, weekBasis);
+				console.log('group: ' + group + ', start date: ' + startDate + ', end date: ' + endDate);
 				res.send({requests: simpleRequestsList, startDate: startDate, endDate: endDate});
 			});
 		} else {
