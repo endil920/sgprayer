@@ -13,7 +13,7 @@ function subtract(date, beginningDay, weeks) {
 function getStartOfWeek(date, basis) {
 	var dayOfWeek = moment(date).isoWeekday();
 	var subtractor = subtractorFunc(dayOfWeek, basis);
-	return moment(date).add(-1 * subtractor, 'days');
+	return moment(date).add(-1 * subtractor, 'days').hours(9).minutes(0).seconds(0);
 }
 function getStartOfWeekDate(date, basis) {
 	return getStartOfWeek(date, basis).add(basis - 1, 'days').toDate();
