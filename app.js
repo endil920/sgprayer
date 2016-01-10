@@ -12,6 +12,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var roomMap = {};
 var moment = require('moment');
+var Requests = require('./routes/requests.js');
 mongoose.connect(config.database);
 
 app.use(express.static('public'));
@@ -61,38 +62,9 @@ app.post('/addrequest/:group', function(req, res) {
 		});
 	});
 });
-app.get('/requestsPreviousWeek/:group/year/:year/month/:month/day/:day', function(req, res) {
-	var groupName = req.params.group;
-	group = groupName;
 
-	var year = req.params.year;
-	var month = req.params.month;
-	var day = req.params.day;
-
-	var date = moment({y: year, M: month, d: day}).toDate();
-	console.log('ok go');
-	Group.findOne({name: groupName}, function(err, group) {
-		if (group) {
-
-			var weekBasis = group.meetingDay || 1;
-			var weekNumber = WeekCalculator.compute(date, weekBasis);
-			WeeklyRequests.findOrCreate({group: group, weekNumber: weekNumber}, function(err, weeklyRequests) {
-				var requestsList = weeklyRequests.requests;
-				var simpleRequestsList = requestsList.map(function(weeklyRequest) {
-					return {name: weeklyRequest.name, message: weeklyRequest.message};
-				});
-
-				var startDate = WeekCalculator.getStartOfWeek(date, weekBasis);
-				var endDate = WeekCalculator.getEndOfWeek(date, weekBasis);
-				console.log('group: ' + group + ', start date: ' + startDate + ', end date: ' + endDate);
-				res.send({requests: simpleRequestsList, startDate: startDate, endDate: endDate});
-			});
-		} else {
-			res.send(false);
-		}
-	});
-
-});
+app.get('/requestsThisWeek/:group/year/:year/month/:month/day/:day', Requests.thisWeek);
+app.get('/requestsLastWeek/:group/year/:year/month/:month/day/:day', Requests.lastWeek);
 app.get('/:group/*', function(req, res) {
 		  res.redirect('/' + req.params.group);
 		  });
@@ -112,6 +84,11 @@ app.get('/:group/*', function(req, res) {
 		  console.log(socket.id + ' is joining ' + room);
 		  roomMap[socket.id] = room;
 		  socket.join(room);
+		  });
+		  socket.on('leave', function(room) {
+		  console.log(socket.id + ' is leaving ' + room);
+		  roomMap[socket.id] = undefined;
+		  socket.leave(room);
 		  });
 
 		  });

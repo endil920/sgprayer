@@ -6,6 +6,12 @@ function compute(date, basis) {
 	var startDay = getStartOfWeek(date, basis);
 	return startDay.get('year') * 100 + startDay.isoWeek();
 }
+function previousWeek(date) {
+	return moment(date).add(-1, 'week');
+}
+function computePrev(date, basis) {
+	return subtract(date, basis, 1);
+}
 function subtract(date, beginningDay, weeks) {
 	var newDate = moment(date).subtract(weeks, 'week');
 	return compute(newDate, beginningDay);
@@ -25,3 +31,5 @@ module.exports.compute = compute;
 module.exports.subtract = subtract;
 module.exports.getStartOfWeek = getStartOfWeekDate;
 module.exports.getEndOfWeek = getEndOfWeekDate;
+module.exports.computePrev = computePrev;
+module.exports.previousWeek = previousWeek;
