@@ -3,8 +3,14 @@ angular.module('sgPrayerApp')
 .controller('SummaryCtrl', ['$routeParams', '$http', '$rootScope', function($routeParams, $http, $rootScope) {
 	var view = this;
 	var group = $routeParams.group;
-	$http.get('/requestsPreviousWeek/' + group).then(function(response) {
-		console.log(response);
+	var date = new Date();
+	var year = date.getFullYear();
+	var month = date.getMonth();
+	var day = date.getDate();
+
+	$http.get('/requestsPreviousWeek/' + group + '/year/' + year 
+		+ '/month/' + month + '/day/' + day).then(function(response) {
+
 		view.summaryData = response.data; 
 		view.requests = view.summaryData.requests;
 		view.startDate = view.summaryData.startDate;

@@ -11,6 +11,7 @@ var config = require('./config/config.js');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var roomMap = {};
+var moment = require('moment');
 mongoose.connect(config.database);
 
 app.use(express.static('public'));
@@ -60,11 +61,16 @@ app.post('/addrequest/:group', function(req, res) {
 		});
 	});
 });
-app.get('/requestsPreviousWeek/:group', function(req, res) {
+app.get('/requestsPreviousWeek/:group/year/:year/month/:month/day/:day', function(req, res) {
 	var groupName = req.params.group;
 	group = groupName;
 
-	var date = req.params.date || new Date();
+	var year = req.params.year;
+	var month = req.params.month;
+	var day = req.params.day;
+
+	var date = moment({y: year, M: month, d: day}).toDate();
+	console.log('ok go');
 	Group.findOne({name: groupName}, function(err, group) {
 		if (group) {
 
@@ -88,28 +94,28 @@ app.get('/requestsPreviousWeek/:group', function(req, res) {
 
 });
 app.get('/:group/*', function(req, res) {
-	res.redirect('/' + req.params.group);
-});
-app.get('/:group', function(req, res) {
-res.sendFile(__dirname + '/public/index.html');
-});
-io.on('connection', function(socket) {
+		  res.redirect('/' + req.params.group);
+		  });
+		  app.get('/:group', function(req, res) {
+		  res.sendFile(__dirname + '/public/index.html');
+		  });
+		  io.on('connection', function(socket) {
 
-socket.on('requestSubmit', function(data) {
-var room = roomMap[socket.id];
-console.log(room);
-console.log(roomMap);
-console.log('and this socket ID is ' + socket.id);
-socket.broadcast.to(room).emit('addRequest', data);	
-});
-socket.on('join', function(room) {
-console.log(socket.id + ' is joining ' + room);
-roomMap[socket.id] = room;
-socket.join(room);
-});
+		  socket.on('requestSubmit', function(data) {
+		  var room = roomMap[socket.id];
+		  console.log(room);
+		  console.log(roomMap);
+		  console.log('and this socket ID is ' + socket.id);
+		  socket.broadcast.to(room).emit('addRequest', data);	
+		  });
+		  socket.on('join', function(room) {
+		  console.log(socket.id + ' is joining ' + room);
+		  roomMap[socket.id] = room;
+		  socket.join(room);
+		  });
 
-});
-var port = process.env.PORT || 3000;
-http.listen(port);
+		  });
+		  var port = process.env.PORT || 3000;
+		  http.listen(port);
 
-console.log("listening on port " + port);
+		  console.log("listening on port " + port);
