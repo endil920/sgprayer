@@ -67,10 +67,10 @@ app.get('/requestsThisWeek/:group/year/:year/month/:month/day/:day', Requests.th
 app.get('/requestsLastWeek/:group/year/:year/month/:month/day/:day', Requests.lastWeek);
 app.get('/summary', function(req, res) {
 	res.redirect('/');
-}
+});
 app.get('/update', function(req, res) {
 	res.redirect('/');
-}
+});
 app.get('/:group/*', function(req, res) {
 		  res.redirect('/' + req.params.group);
 		  });
