@@ -1,11 +1,12 @@
 <div ng-show="summaryCtrl.summaryData">
 	<div ng-hide="summaryCtrl.requests.length === 0 && summaryCtrl.current">
-
 		<div class="row"><h2>Prayer Requests for {{summaryCtrl.group}}</h2></div>
-		<div class="row"><a ng-show="summaryCtrl.current" class="text-left" ng-click="summaryCtrl.showLast()">click to see previous week</a>
-			<a ng-hide="summaryCtrl.current" class="text-left" ng-click="summaryCtrl.showCurrent()">click to see previous week</a>
-		</div>
-
+	</div>
+	<div class="row">
+		<a ng-show="summaryCtrl.current" class="text-left" ng-click="summaryCtrl.showLast()">click to see previous week</a>
+		<a ng-hide="summaryCtrl.current" class="text-left" ng-click="summaryCtrl.showCurrent()">click to see current week</a>
+	</div>
+	<div ng-hide="summaryCtrl.requests.length === 0 && summaryCtrl.current">
 		<h3>{{summaryCtrl.startDate|date: 'MMM d, yyyy'}} to {{summaryCtrl.endDate|date: 'MMM d, yyyy'}}</h3>
 		<ul>
 			<li ng-repeat="request in summaryCtrl.requests">
