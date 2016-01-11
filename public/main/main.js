@@ -11,14 +11,17 @@ angular.module('sgPrayerApp')
 	});
 	console.log(daysMap);
 	view.submit = function() {
-		$http.post("/addgroup", {group: view.newGroupName, meetingDay: daysMap[view.day]}).then(function(message) {
-			console.log(message);
-			if (message) {
-				view.msg = "Group " + view.newGroupName + " successfully registered. You meet on " + view.day + "s.";
+		$http.post("/addgroup", {group: view.newGroupName, meetingDay: daysMap[view.day]}).then(function(response) {
+
+			if (response.data) {
+				view.confirmation = "Group " + view.newGroupName + " registered at " + "www.church.longlined.com/" + window.encodeURIComponent(view.newGroupName);
+				view.msg = false;
+				view.lnk = "/" + view.newGroupName;
 			} else {
 				view.msg = "it looks like that group already exists!";
+				view.confirmation = false;
 			}
-			view.lnk = "/" + view.newGroupName;
+
 			view.day = '';
 			view.newGroupName = '';
 
