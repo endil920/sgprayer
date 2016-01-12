@@ -6,25 +6,23 @@ angular.module('sgPrayerApp', ['ngRoute'])
 	.when('/', {
 		templateUrl: './views/main.html'
 	})
-.when('/about/*', {
-	       templateUrl: '/.views/main.html'
-	       })
-	       .when('/:group/update', {
-	       template: '<add-module></add-module>',
-
-
-	       })
-	       .when('/:group/summary', {
-	       templateUrl: './views/main.html'
-	       })
-	       .when('/about', {
-	       templateUrl: './views/about.html'
-	       })
-	       .when('/:group', {
-	       templateUrl: './views/main.html'
-	       })
-	       .otherwise({
-	       redirectTo: './views/main.html'
-	       });
-	       $locationProvider.html5Mode(true);
-	       }]);
+.when('/about/update', {
+	templateUrl: './views/main.html'
+})
+.when('/about', {
+	templateUrl: './views/about.html'
+})
+.when('/:group/update', {
+	template: '<add-module></add-module>',
+})
+.when('/:group/summary', {
+	templateUrl: './views/main.html'
+})
+.when('/:group', {
+	templateUrl: './views/main.html'
+})
+.otherwise({
+	redirectTo: './views/main.html'
+});
+$locationProvider.html5Mode(true);
+}]);

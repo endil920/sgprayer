@@ -9,7 +9,10 @@ angular.module('sgPrayerApp')
 	view.days.forEach(function(day, index) {
 		daysMap[day] = index + 1;
 	});
-	console.log(daysMap);
+
+	view.isGroupValid = function() {
+		return view.group && view.group !== 'about';
+	};
 	view.submit = function() {
 		$http.post("/addgroup", {group: view.newGroupName, meetingDay: daysMap[view.day]}).then(function(response) {
 
