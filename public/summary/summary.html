@@ -3,26 +3,28 @@
 		<div class="row">
 			<h2>Prayer Requests for {{summaryCtrl.group}}</h2>
 		</div>
-		<h3>		
-			<a ng-show="summaryCtrl.current" class="text-left" ng-click="summaryCtrl.showLast()"><span class="glyphicon glyphicon-chevron-left"></span></a>
-			<a ng-hide="summaryCtrl.current" class="text-left"><span class="glyphicon glyphicon-chevron-left disabled"></span></a>			
-			{{summaryCtrl.startDate|date: 'MMM d, yyyy'}} to {{summaryCtrl.endDate|date: 'MMM d, yyyy'}}
-			<a ng-hide="summaryCtrl.current" class="text-left" ng-click="summaryCtrl.showCurrent()"><span class="glyphicon glyphicon-chevron-right"></span></a>
-			<a ng-show="summaryCtrl.current" class="text-left"><span class="glyphicon glyphicon-chevron-right disabled"></span></a>			
+	</div>
+	<h3>		
+		<a ng-show="summaryCtrl.current" class="text-left" ng-click="summaryCtrl.showLast()"><span class="glyphicon glyphicon-chevron-left"></span></a>
+		<a ng-hide="summaryCtrl.current" class="text-left"><span class="glyphicon glyphicon-chevron-left disabled"></span></a>			
+		{{summaryCtrl.startDate|date: 'MMM d, yyyy'}} to {{summaryCtrl.endDate|date: 'MMM d, yyyy'}}
+		<a ng-hide="summaryCtrl.current" class="text-left" ng-click="summaryCtrl.showCurrent()"><span class="glyphicon glyphicon-chevron-right"></span></a>
+		<a ng-show="summaryCtrl.current" class="text-left"><span class="glyphicon glyphicon-chevron-right disabled"></span></a>			
 
-		</h3>
+	</h3>
+	<div ng-hide="summaryCtrl.requests.length === 0 && summaryCtrl.current">
 		<ul>
 			<li ng-repeat="request in summaryCtrl.requests">
 			<b>{{request.name}}</b>
 			<p>{{request.message}}</p>
 			</li>
 		</ul>
-
-		<div ng-show="summaryCtrl.requests.length === 0 && summaryCtrl.current">
-			No prayer requests for this week yet.
-			<add-module></add-module>
-		</div>
 	</div>
-	<div ng-hide="summaryCtrl.summaryData">
-		No group {{summaryCtrl.group}} exists. Do you mean to <a target="_self" href="/">register?</a>
+	<div ng-show="summaryCtrl.requests.length === 0 && summaryCtrl.current">
+		No prayer requests for this week yet.
+		<add-module></add-module>
 	</div>
+</div>
+<div ng-hide="summaryCtrl.summaryData">
+	No group {{summaryCtrl.group}} exists. Do you mean to <a target="_self" href="/">register?</a>
+</div>
