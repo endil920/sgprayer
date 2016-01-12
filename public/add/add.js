@@ -11,7 +11,7 @@ angular.module('sgPrayerApp')
 				{name: view.name, message: view.message});
 			view.name = '';
 			view.message = '';
-			view.confirmation = 'your request has been submitted. click on weekly requests to view all';
+			view.confirmation = 'Submitted!';
 			view.errorMsg = '';
 		}, function(error) {
 			view.confirmation = '';

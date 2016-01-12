@@ -4,3 +4,9 @@ color: 	#006400;
 .error {
 	color: red;
 }
+* {
+	font-family: 'Raleway', sans-serif;
+}
+.disabled {
+	color: gray;
+}
