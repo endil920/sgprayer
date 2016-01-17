@@ -98,7 +98,7 @@ app.get('/:group/*', function(req, res) {
 		  });
 
 		  });
-		  var port = process.env.PORT || 3000;
+		  var port = process.env.PORT || 3001;
 		  http.listen(port);
 
 		  console.log("listening on port " + port);
