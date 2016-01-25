@@ -1,28 +1,28 @@
 <div ng-show="summaryCtrl.summaryData">
-	<div ng-hide="summaryCtrl.requests.length === 0 && summaryCtrl.current">
-		<div class="row">
-			<h2>Prayer Requests for {{summaryCtrl.group}}</h2>
-		</div>
-	</div>
-	<h3>		
-		<a ng-show="summaryCtrl.current" class="text-left" ng-click="summaryCtrl.showLast()"><span class="glyphicon glyphicon-chevron-left"></span></a>
-		<a ng-hide="summaryCtrl.current" class="text-left"><span class="glyphicon glyphicon-chevron-left disabled"></span></a>			
-		{{summaryCtrl.startDate|date: 'MMM d, yyyy'}} to {{summaryCtrl.endDate|date: 'MMM d, yyyy'}}
-		<a ng-hide="summaryCtrl.current" class="text-left" ng-click="summaryCtrl.showCurrent()"><span class="glyphicon glyphicon-chevron-right"></span></a>
-		<a ng-show="summaryCtrl.current" class="text-left"><span class="glyphicon glyphicon-chevron-right disabled"></span></a>			
-	</h3>
+    <div ng-hide="summaryCtrl.requests.length === 0 && summaryCtrl.current">
+        <div class="text-center">
+            <h2>Prayer Requests for {{summaryCtrl.group}}</h2>
+        </div>
+    </div>
+    <h3 class="text-center">		
+        <a ng-show="summaryCtrl.current" class="text-left" ng-click="summaryCtrl.showLast()"><span class="glyphicon glyphicon-chevron-left"></span></a>
+        <a ng-hide="summaryCtrl.current" class="text-left"><span class="glyphicon glyphicon-chevron-left disabled"></span></a>			
+        {{summaryCtrl.startDate|date: 'MMM d, yyyy'}} to {{summaryCtrl.endDate|date: 'MMM d, yyyy'}}
+        <a ng-hide="summaryCtrl.current" class="text-left" ng-click="summaryCtrl.showCurrent()"><span class="glyphicon glyphicon-chevron-right"></span></a>
+        <a ng-show="summaryCtrl.current" class="text-left"><span class="glyphicon glyphicon-chevron-right disabled"></span></a>			
+    </h3 class="text-center">
 
-	<div ng-hide="summaryCtrl.requests.length === 0 && summaryCtrl.current">
-	<div class="container">
-		<request-box ng-repeat="request in summaryCtrl.requests" author="request.name">{{request.message}}</request-box>
-	</div>
+    <div ng-hide="summaryCtrl.requests.length === 0 && summaryCtrl.current">
 
-	</div>
-	<div ng-show="summaryCtrl.requests.length === 0 && summaryCtrl.current">
-		No prayer requests for this week yet.
-		<add-module></add-module>
-	</div>
+        <request-box ng-repeat="request in summaryCtrl.requests" author="request.name">{{request.message}}</request-box>
+
+
+    </div>
+    <div ng-show="summaryCtrl.requests.length === 0 && summaryCtrl.current">
+        No prayer requests for this week yet.
+        <add-module></add-module>
+    </div>
 </div>
 <div ng-hide="summaryCtrl.summaryData">
-	No group {{summaryCtrl.group}} exists. Do you mean to <a target="_self" href="/">register?</a>
+    No group {{summaryCtrl.group}} exists. Do you mean to <a target="_self" href="/">register?</a>
 </div>
