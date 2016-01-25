@@ -3,6 +3,7 @@ var models = require('../models/weeklyRequests');
 var Group = models.Group;
 var WeekCalculator = require('../util/weekCalculator.js');
 var WeeklyRequests = models.WeeklyRequests;
+var FullRequest = models.FullRequest;
 
 var baseFunc = function(dateFunc) {
 	return function(req, res) {
@@ -17,26 +18,19 @@ var baseFunc = function(dateFunc) {
 
 		Group.findOne({name: groupName}, function(err, group) {
 			if (group) {
-
 				var weekBasis = group.meetingDay || 1;
-				var weekNumber = WeekCalculator.compute(date, weekBasis);
-				WeeklyRequests.findOrCreate({group: group, weekNumber: weekNumber}, function(err, weeklyRequests) {
-					var requestsList = weeklyRequests.requests;
-					var simpleRequestsList = requestsList.map(function(weeklyRequest) {
-						return {name: weeklyRequest.name, message: weeklyRequest.message};
-					});
+                var weekNumber = WeekCalculator.compute(date, weekBasis);
+                var startDate = WeekCalculator.getStartOfWeek(date, weekBasis);
+                var endDate = WeekCalculator.getEndOfWeek(date, weekBasis);
+                FullRequest.find({group: group, weekNumber: weekNumber}, function(err, fullRequests) {
+                    res.send({requests: fullRequests, startDate: startDate, endDate: endDate});
+                });
+            } else {
+                res.send(false);
+            }
+        });
 
-					var startDate = WeekCalculator.getStartOfWeek(date, weekBasis);
-					var endDate = WeekCalculator.getEndOfWeek(date, weekBasis);
-
-					res.send({requests: simpleRequestsList, startDate: startDate, endDate: endDate});
-				});
-			} else {
-				res.send(false);
-			}
-		});
-
-	};
+    };
 }
 var thisWeek = baseFunc(function(d) {return d});
 var lastWeek = baseFunc(WeekCalculator.previousWeek);
