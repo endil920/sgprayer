@@ -15,11 +15,10 @@
 
                 </textarea>
                 <br>
-                <div class="row"><a ng-hide="updateCtrl.submitting" class="btn btn-primary btn-lg" href="#" role="button" ng-click="updateCtrl.submit()">
+                <div class="row"><a ng-hide="updateCtrl.submitting" class="btn btn-primary btn-lg" data-dismiss="modal" href="#" role="button" ng-click="updateCtrl.submit()">
                     Submit
                     </a>
-                    <div ng-show="updateCtrl.submitting" class="btn btn-ln disabled">Submit</div>
-
+                    <div ng-show="updateCtrl.submitting" class="btn btn-ln disabled" >Submit</div>
 
                     <span class="confirmation" ng-show="updateCtrl.confirmation && updateCtrl.isBlank()">{{updateCtrl.confirmation}}</span>
                     <span class="error" ng-show="updateCtrl.errorMsg && updateCtrl.isBlank()">{{updateCtrl.errorMsg}}</span>

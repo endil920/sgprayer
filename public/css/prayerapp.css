@@ -1,28 +1,53 @@
 .confirmation {
-color: 	#00CC33;
+  color: 	#00CC33;
 }
 .error {
-	color: red;
+  color: red;
 }
 * {
-	font-family: 'Raleway', sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 .disabled {
-	color: gray;
+  color: gray;
 }
 .request-box {
-	
-box-shadow: 3px 3px 2px 2px gray;
-	border-color: #D0D0D0;
-	margin-bottom: 2%;
-	padding: 1% 5% 1% 5%;
-	background: #FAFAFA;
+
+  box-shadow: 3px 3px 2px 2px gray;
+  border-color: #D0D0D0;
+  margin-bottom: 2%;
+  padding: 1% 5% 1% 5%;
+  background: #FAFAFA;
 }
 
 .modal-content {
-    padding: 2% 3% 3% 2%;
+  padding: 2% 3% 3% 2%;
 }
 .btn-circle {
-    border-radius: 30px;
+  border-radius: 30px;
+}
+.jumbotron {
+  height: 100%;
+  display: block;
+  box-shadow: none;
+}
+.request-container {
+  display: block;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  position: absolute;
+  background: #EEEEEE;
+  padding-left: 2%;
+  padding-right: 2%;
+  margin-top: 3%;
+}
+
+.add-button {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  box-shadow: 3px 3px 2px 2px gray;
 }
 

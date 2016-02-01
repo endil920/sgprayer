@@ -92,7 +92,7 @@ angular.module('sgPrayerApp')
                  view.showCurrent = function() {
                    getRequests.fetch('requestsThisWeek', group, date);
 
-                   SummaryDispatcher.currentEvent.onNext(false);
+                   SummaryDispatcher.currentEvent.onNext(true);
                    socket.emit('join', group);
                  };
 
