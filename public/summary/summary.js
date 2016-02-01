@@ -1,71 +1,118 @@
 
 angular.module('sgPrayerApp')
-.controller('SummaryCtrl', ['$routeParams', '$http', '$rootScope', 'getRequests', function($routeParams, $http, $rootScope, getRequests) {
+.factory('SummaryStore', ['$routeParams', 'SummaryDispatcher', '$rootScope', function($routeParams, SummaryDispatcher, $rootScope) {
+  function Store(dispatcher) {
     var view = this;
-    var group = $routeParams.group;
-    var date = new Date();
-    var year = date.getFullYear();
-    var month = date.getMonth();
-    var day = date.getDate();
-
     view.current = true;
 
-    getRequests.fetch('requestsThisWeek', group, year, month, day, view);	
-    socket.emit('join', group);
-    view.showLast = function() {
-        getRequests.fetch('requestsLastWeek', group, year, month, day, view);	
-        view.current = false;
-        socket.emit('leave', group);
-    };	
-
-    view.showCurrent = function() {
-        getRequests.fetch('requestsThisWeek', group, year, month, day, view);	
-        view.current = true;
-        socket.emit('join', group);
-    };	
-
-    view.group = $routeParams.group;
-    socket.on('addRequest', function(data) {
-        console.log('hey there');
-        view.requests.push(data);
-        console.log(view.requests);
-        $rootScope.$digest();
+    dispatcher.dataEvent.subscribe(function(data) {
+      view.summaryData = data.summaryData;
+      view.requests = data.requests;
+      view.startDate = data.startDate;
+      view.endDate = data.endDate;
     });
 
-}])
-.service('getRequests', ['$http', function($http) {
-    return  {
-        fetch: function(base, group, year, month, day, view) {
-                   $http.get('/' + base + '/' + group + '/year/' + year 
-                       + '/month/' + month + '/day/' + day).then(function(response) {
+    dispatcher.updateDataEvent.subscribe(function(newData) {
+      view.requests.push(newData);
+      $rootScope.$digest();
+    });
 
-                       view.summaryData = response.data; 
-                       view.requests = view.summaryData.requests;
-                       view.startDate = view.summaryData.startDate;
-                       view.endDate = view.summaryData.endDate;
-                       console.log('the start date should be ' + view.startDate);	
-                       console.log('the end date should be ' + view.endDate);
+    dispatcher.currentEvent.subscribe(function(isCurrent) {
+      view.current = isCurrent;
+    });
 
-                   });	
-               }
+  }
+  return {
+    create: function(dispatcher) {
+      return new Store(dispatcher);
     }
-
+  }
 }])
+.factory('SummaryDispatcher', function() {
+  var dataEvent = new Rx.Subject();
+  var updateDataEvent = new Rx.Subject();
+  var currentEvent = new Rx.Subject();
+  return {
+    dataEvent: dataEvent,
+    updateDataEvent: updateDataEvent,
+    currentEvent: currentEvent
+  }
+})
+.service('getRequests', ['$http', 'SummaryDispatcher', function($http, SummaryDispatcher) {
+  return  {
+    fetch: function(base, group, date) {
+      var year = date.getFullYear();
+      var month = date.getMonth();
+      var day = date.getDate();
+
+      $http.get('/' + base + '/' + group + '/year/' + year
+                + '/month/' + month + '/day/' + day).then(function(response) {
+
+        SummaryDispatcher.dataEvent.onNext({
+          summaryData: response.data
+          , requests: response.data.requests
+          , startDate: response.data.startDate
+          , endDate: response.data.endDate
+        });
+      });
+    }
+  }
+}])
+.controller('SummaryCtrl'
+            , ['$routeParams'
+               , '$http'
+               , 'getRequests'
+               , 'SummaryDispatcher'
+               , 'SummaryStore'
+               , function($routeParams, $http, getRequests, SummaryDispatcher, SummaryStore) {
+
+                 var view = this;
+                 var group = $routeParams.group;
+                 var date = new Date();
+
+                 view.store = SummaryStore.create(SummaryDispatcher);
+
+                 getRequests.fetch('requestsThisWeek', group, date);
+
+                 socket.emit('join', group);
+
+                 view.showLast = function() {
+                   getRequests.fetch('requestsLastWeek', group, date);
+
+                   SummaryDispatcher.currentEvent.onNext(false);
+
+                   socket.emit('leave', group);
+                 };
+
+                 view.showCurrent = function() {
+                   getRequests.fetch('requestsThisWeek', group, date);
+
+                   SummaryDispatcher.currentEvent.onNext(false);
+                   socket.emit('join', group);
+                 };
+
+                 view.group = $routeParams.group;
+
+                 socket.on('addRequest', function(data) {
+                   SummaryDispatcher.updateDataEvent.onNext(data);
+                 });
+
+               }])
 .directive('requestsSummary', function() {
-    return {
-        restrict: 'E',
-bindToController: true,
-controller: 'SummaryCtrl',
-controllerAs: 'summaryCtrl',
-templateUrl: 'summary/summary.html'
-    };
+  return {
+    restrict: 'E',
+    bindToController: true,
+    controller: 'SummaryCtrl',
+    controllerAs: 'summaryCtrl',
+    templateUrl: 'summary/summary.html'
+  };
 })
 .directive('requestBox', function() {
-    return {
-        scope: {
-                   author: '='
-               },
-        templateUrl: 'summary/requestBox.html',
-        transclude: true
-    };
+  return {
+    scope: {
+      author: '='
+    },
+    templateUrl: 'summary/requestBox.html',
+    transclude: true
+  };
 });

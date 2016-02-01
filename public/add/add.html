@@ -1,23 +1,30 @@
 
-<div class="row">
-    <h2>Add Requests for {{updateCtrl.group}}</h2>
+<div ng-attr-id="{{updateCtrl.modalId}}" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="col-md-9">                <h2>Add Requests for {{updateCtrl.group}}</h2></span>
+                <span class="col-md-3">                <button type="button" class="close" data-dismiss="modal">&times;</button></span>
+            </div>
+            <div class="modal-body">
+                <div class="row form-group">
+                    <label for="usr">Name:</label>
+                    <input type="text" id="usr" ng-model="updateCtrl.name">
+                </div>
+                <br><textarea class="row form-control" rows="4" cols="50" ng-model="updateCtrl.message">
+
+                </textarea>
+                <br>
+                <div class="row"><a ng-hide="updateCtrl.submitting" class="btn btn-primary btn-lg" href="#" role="button" ng-click="updateCtrl.submit()">
+                    Submit
+                    </a>
+                    <div ng-show="updateCtrl.submitting" class="btn btn-ln disabled">Submit</div>
+
+
+                    <span class="confirmation" ng-show="updateCtrl.confirmation && updateCtrl.isBlank()">{{updateCtrl.confirmation}}</span>
+                    <span class="error" ng-show="updateCtrl.errorMsg && updateCtrl.isBlank()">{{updateCtrl.errorMsg}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="row form-group">
-    <label for="usr">Name:</label>
-    <input type="text" id="usr" ng-model="updateCtrl.name">
-</div>
-<br><textarea class="row form-control" rows="4" cols="50" ng-model="updateCtrl.message">
-
-</textarea>
-<br>
-<div class="row"><a ng-hide="updateCtrl.submitting" class="btn btn-primary btn-lg" href="#" role="button" ng-click="updateCtrl.submit()">
-        Submit
-    </a>
-    <div ng-show="updateCtrl.submitting" class="btn btn-ln disabled">Submit</div>
-
-
-    <span class="confirmation" ng-show="updateCtrl.confirmation && updateCtrl.isBlank()">{{updateCtrl.confirmation}}</span>
-    <span class="error" ng-show="updateCtrl.errorMsg && updateCtrl.isBlank()">{{updateCtrl.errorMsg}}</span>
-</div>
-
-

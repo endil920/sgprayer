@@ -18,3 +18,11 @@ box-shadow: 3px 3px 2px 2px gray;
 	padding: 1% 5% 1% 5%;
 	background: #FAFAFA;
 }
+
+.modal-content {
+    padding: 2% 3% 3% 2%;
+}
+.btn-circle {
+    border-radius: 30px;
+}
+
