@@ -1,11 +1,14 @@
 
 angular.module('sgPrayerApp')
-.controller('UpdateCtrl', ['$routeParams', '$http', function($routeParams, $http) {
+.controller('UpdateCtrl', ['$routeParams', '$http', 'SummaryDispatcher', function($routeParams, $http, SummaryDispatcher) {
   var view = this;
   view.group = $routeParams.group;
   view.submitting = false;
   view.submit = function() {
     console.log('submitting ' + view.name + ', ' + view.message);
+
+    SummaryDispatcher.updateDataEvent.onNext({name: view.name, message: view.message, local: true});
+
     view.submitting = true;
     $http.post('/addrequest/' + view.group, {name: view.name, message: view.message}).then(function(success) {
 
@@ -16,6 +19,9 @@ angular.module('sgPrayerApp')
       view.confirmation = 'Submitted!';
       view.errorMsg = '';
       view.submitting = false;
+
+
+
     }, function(error) {
       view.confirmation = '';
       view.errorMsg = 'request failed to submit. Please try again.';

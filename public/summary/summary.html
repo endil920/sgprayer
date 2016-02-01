@@ -1,7 +1,7 @@
 <div ng-show="summaryCtrl.store.summaryData">
     <div ng-hide="summaryCtrl.store.requests.length === 0 && summaryCtrl.store.current">
         <div class="text-center">
-            <h2>Prayer Requests for {{summaryCtrl.group}}</h2>
+            <h2>Prayer Requests for {{summaryCtrl.store.group}}</h2>
         </div>
     </div>
     <h3 class="text-center">
@@ -20,5 +20,5 @@
 </div>
 
 <div ng-hide="summaryCtrl.store.summaryData">
-        No group {{summaryCtrl.group}} exists. Do you mean to <a target="_self" href="/">register?</a>
+        No group {{summaryCtrl.store.group}} exists. Do you mean to <a target="_self" href="/">register?</a>
 </div>

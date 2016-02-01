@@ -5,6 +5,8 @@ angular.module('sgPrayerApp')
     var view = this;
     view.current = true;
 
+    view.group = $routeParams.group;
+
     dispatcher.dataEvent.subscribe(function(data) {
       view.summaryData = data.summaryData;
       view.requests = data.requests;
@@ -14,7 +16,10 @@ angular.module('sgPrayerApp')
 
     dispatcher.updateDataEvent.subscribe(function(newData) {
       view.requests.push(newData);
-      $rootScope.$digest();
+      console.log(newData);
+      if (!newData.local) {
+        $rootScope.$digest();
+      }
     });
 
     dispatcher.currentEvent.subscribe(function(isCurrent) {
@@ -90,8 +95,6 @@ angular.module('sgPrayerApp')
                    SummaryDispatcher.currentEvent.onNext(false);
                    socket.emit('join', group);
                  };
-
-                 view.group = $routeParams.group;
 
                  socket.on('addRequest', function(data) {
                    SummaryDispatcher.updateDataEvent.onNext(data);
