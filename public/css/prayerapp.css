@@ -51,3 +51,7 @@
   box-shadow: 3px 3px 2px 2px gray;
 }
 
+@media (max-width: @screen-xs-min) {
+  .modal-xs { width: @modal-sm; }
+}
+
