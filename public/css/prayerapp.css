@@ -50,7 +50,12 @@
   right: 5%;
   box-shadow: 3px 3px 2px 2px gray;
 }
-
+@media only screen and (max-device-width: 750px) {
+	.modal-dialog {
+		height: 100%;
+		width: 100%;
+}
+}
 .modal-open {
 	overflow-y: auto;
 }
