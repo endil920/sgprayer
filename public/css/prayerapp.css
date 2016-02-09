@@ -51,4 +51,9 @@
   box-shadow: 3px 3px 2px 2px gray;
 }
 
-
+.modal-open {
+	overflow-y: auto;
+}
+body {
+	padding-right: 0px !important
+}
