@@ -115,7 +115,7 @@ angular.module('sgPrayerApp')
     scope: {
       author: '='
     },
-    templateUrl: 'summary/requestBox.html',
+    templateUrl: 'summary/request-box.html',
     transclude: true
   };
 });

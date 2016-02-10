@@ -8,11 +8,12 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/4.0.7/rx.all.min.js"></script>
 		<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-		<script src="./sgPrayerApp.js"></script>
+		<script src="router.js"></script>
 		<script src="./main/main.js"></script>
+		<script src="./register/register.js"></script>
 		<script src="./add/add.js"></script>
 		<script src="./summary/summary.js"></script>
-		<link rel="stylesheet" type="text/css" href="css/prayerapp.css">
+		<link rel="stylesheet" type="text/css" href="css/main.css">
 		<base href="/">
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
@@ -41,25 +42,9 @@
 		</script>
 	</head>
 	<body ng-app="sgPrayerApp">
-		<div class="container" ng-controller="MainCtrl as mainCtrl">
-<!--
-            <nav class="navbar navbar-default">
-
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">{{mainCtrl.group}}</a>
-			</div>
-			<div>
-				<ul class="nav navbar-nav">
-					<li><a href="{{mainCtrl.group}}/summary">Pray</a></li>
-					<li><a href="about">About</a></li>
-				</ul>
-			</div>
--->
-
-<!--			<div class="jumbotron">-->
+		<div class="container">
 				<div ng-view>
-<!--				</div>-->
-			</div>
+				</div>
 		</div>
 	</body>
 </html>

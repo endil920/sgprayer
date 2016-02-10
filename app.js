@@ -78,33 +78,36 @@ app.get('/update', function(req, res) {
     res.redirect('/');
 });
 app.get('/:group/*', function(req, res) {
-                  res.redirect('/' + req.params.group);
-                  });
-                  app.get('/:group', function(req, res) {
-                  res.sendFile(__dirname + '/public/index.html');
-                  });
-                  io.on('connection', function(socket) {
+		  var group = req.params.group.toLowerCase();
+		  res.redirect('/' + group);
+		  });
 
-                  socket.on('requestSubmit', function(data) {
-                  var room = roomMap[socket.id];
-                  console.log(room);
-                  console.log(roomMap);
-                  console.log('and this socket ID is ' + socket.id);
-                  socket.broadcast.to(room).emit('addRequest', data);	
-                  });
-                  socket.on('join', function(room) {
-                  console.log(socket.id + ' is joining ' + room);
-                  roomMap[socket.id] = room;
-                  socket.join(room);
-                  });
-                  socket.on('leave', function(room) {
-                  console.log(socket.id + ' is leaving ' + room);
-                  roomMap[socket.id] = undefined;
-                  socket.leave(room);
-                  });
 
-                  });
-                  var port = process.env.PORT || 3001;
-                  http.listen(port);
+		  app.get('/:group', function(req, res) {
+		  res.sendFile(__dirname + '/public/index.html');
+		  });
+		  io.on('connection', function(socket) {
 
-                  console.log("listening on port " + port);
+		  socket.on('requestSubmit', function(data) {
+		  var room = roomMap[socket.id];
+		  console.log(room);
+		  console.log(roomMap);
+		  console.log('and this socket ID is ' + socket.id);
+		  socket.broadcast.to(room).emit('addRequest', data);	
+		  });
+		  socket.on('join', function(room) {
+		  console.log(socket.id + ' is joining ' + room);
+		  roomMap[socket.id] = room;
+		  socket.join(room);
+		  });
+		  socket.on('leave', function(room) {
+		  console.log(socket.id + ' is leaving ' + room);
+		  roomMap[socket.id] = undefined;
+		  socket.leave(room);
+		  });
+
+		  });
+		  var port = process.env.PORT || 3001;
+		  http.listen(port);
+
+		  console.log("listening on port " + port);

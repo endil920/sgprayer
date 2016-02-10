@@ -1,0 +1,19 @@
+
+<h1 class="text-center">	Welcome to InterSeed</h1>
+<p class="text-center">
+    If you would like to register a group, please register below. Otherwise, please visit your group's custom URL
+</p>
+<p>What is your group's name?<input type-"text" ng-model="regCtrl.newGroupName"></p>
+<p>What day do you meet?<select ng-model="regCtrl.day" ng-options="key for key in regCtrl.days"></select></p>
+<button class="btn btn-primary" type="submit" ng-click="regCtrl.submit()">Register</button>
+
+
+<div ng-show="regCtrl.confirmation" class="confirmation">
+<a target="_self" class="confirmation" ng-href="{{regCtrl.lnk}}">
+    {{regCtrl.confirmation}}
+</a>
+</div>
+
+<div ng-show="regCtrl.msg">
+{{regCtrl.msg}}
+</div>
