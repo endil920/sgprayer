@@ -17,7 +17,7 @@ angular.module('sgPrayerApp')
 		$http.post("/addgroup", {group: view.newGroupName, meetingDay: daysMap[view.day]}).then(function(response) {
 
 			if (response.data) {
-				view.confirmation = "Group " + view.newGroupName + " registered at " + "www.church.longlined.com/" + window.encodeURIComponent(view.newGroupName);
+				view.confirmation = "Group " + view.newGroupName + " registered at " + "www.pray.longlined.com/" + window.encodeURIComponent(view.newGroupName);
 				view.msg = false;
 				view.lnk = "/" + view.newGroupName;
 			} else {
