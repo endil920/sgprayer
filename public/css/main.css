@@ -36,7 +36,7 @@
   right: 0;
   width: 100%;
   height: 70%;
-  overflow: auto;
+  overflow: scroll;
   position: absolute;
   background: #EEEEEE;
   padding-top: 2%;
