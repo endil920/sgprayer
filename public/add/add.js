@@ -5,7 +5,7 @@ angular.module('sgPrayerApp')
 	view.group = $routeParams.group;
 	view.submitting = false;
 	view.submit = function() {
-		if (view.message) {
+		if(view.message) {
 			console.log('submitting ' + view.name + ', ' + view.message);
 
 			SummaryDispatcher.updateDataEvent.onNext({name: view.name, message: view.message, local: true});
@@ -20,13 +20,15 @@ angular.module('sgPrayerApp')
 				view.confirmation = 'Submitted!';
 				view.errorMsg = '';
 				view.submitting = false;
+
 			}
-			}, function(error) {
+			, function(error) {
 				view.confirmation = '';
 				view.errorMsg = 'request failed to submit. Please try again.';
 				console.log('did fail with message ' + error);
 				view.submitting = false;
 			});
+		}
 	};
 	view.isBlank = function() {
 		return view.message === '' && view.name ==='';
