@@ -3,9 +3,16 @@
 <p class="text-center">
     If you would like to register a group, please register below. Otherwise, please visit your group's custom URL
 </p>
-<p>What is your group's name?<input type-"text" ng-model="regCtrl.newGroupName"></p>
-<p>What day do you meet?<select ng-model="regCtrl.day" ng-options="key for key in regCtrl.days"></select></p>
-<button class="btn btn-primary" type="submit" ng-click="regCtrl.submit()">Register</button>
+<div class="row mb10">
+	<span class="text-right col-md-6">What is your group's name?</span><span class="text-left col-md-6"><input type-"text" ng-model="regCtrl.newGroupName"></span>
+</div>
+<div class="row mb10">
+	<span class="text-right col-md-6">What day do you meet?</span><span class="text-left col-md-6"><select ng-model="regCtrl.day" ng-options="key for key in regCtrl.days"></select></span>
+</div>
+<div class="row">
+	<span class="text-center col-md-12"><button class="btn btn-primary" type="submit" ng-click="regCtrl.submit()">Register</button>
+	</span>
+</div>
 
 
 <div ng-show="regCtrl.confirmation" class="confirmation">
