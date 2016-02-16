@@ -28,4 +28,5 @@ angular.module('sgPrayerApp')
 
             });
         }
+	view.isBlank = function() {return !view.day || !view.newGroupName;};
     }]);

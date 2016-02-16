@@ -31,7 +31,7 @@ angular.module('sgPrayerApp')
 		}
 	};
 	view.isBlank = function() {
-		return view.message === '' && view.name ==='';
+		return !view.message || !view.name;
 	};
 }])
 .directive('addModule', function() {

@@ -1,5 +1,5 @@
 
-<div class="text-center"><img src="images/logo.jpg"></div>
+<div class="text-center"><img src="images/logo_full.jpg"></div>
 <p class="text-center">
     If you would like to register a group, please register below. Otherwise, please visit your group's custom URL
 </p>
@@ -10,8 +10,8 @@
 	<span class="text-right col-md-6">What day do you meet?</span><span class="text-left col-md-6"><select ng-model="regCtrl.day" ng-options="key for key in regCtrl.days"></select></span>
 </div>
 <div class="row">
-	<span class="text-center col-md-12"><button class="btn btn-primary" type="submit" ng-click="regCtrl.submit()">Register</button>
-	</span>
+	<span ng-hide="regCtrl.isBlank()" class="text-center col-md-12"><button class="btn btn-primary" type="submit" ng-click="regCtrl.submit()">Register</button></span>
+	<span ng-show="regCtrl.isBlank()" class="text-center col-md-12"><button class="btn btn-primary disabled" type="submit">Register</button></span>
 </div>
 
 
