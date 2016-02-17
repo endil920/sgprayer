@@ -69,6 +69,10 @@ app.post('/addrequest/:group', function(req, res) {
 
 });
 
+app.post('/prayfor/:id', function(req, res) {
+   var id = req.params.id;
+});
+
 app.get('/requestsThisWeek/:group/year/:year/month/:month/day/:day', Requests.thisWeek);
 app.get('/requestsLastWeek/:group/year/:year/month/:month/day/:day', Requests.lastWeek);
 app.get('/summary', function(req, res) {
@@ -77,31 +81,40 @@ app.get('/summary', function(req, res) {
 app.get('/update', function(req, res) {
     res.redirect('/');
 });
+app.get('/groups/:group', function(req, res) {
+var groupName = req.params.group;
+Group.find({name: groupName}, function(err, group) {
+	console.log(group);
+	if (group.length > 0) {
+		console.log('found the group');
+		res.send(true);
+	} else {
+		console.log('no group exists');
+		res.end(false);
+	}
+}); 
+});
+
 app.get('/:group/*', function(req, res) {
-		  var group = req.params.group.toLowerCase();
 		  res.redirect('/' + group);
 		  });
-
-
 		  app.get('/:group', function(req, res) {
 		  res.sendFile(__dirname + '/public/index.html');
 		  });
+
 		  io.on('connection', function(socket) {
 
-		  socket.on('requestSubmit', function(data) {
-		  var room = roomMap[socket.id];
-		  console.log(room);
-		  console.log(roomMap);
-		  console.log('and this socket ID is ' + socket.id);
-		  socket.broadcast.to(room).emit('addRequest', data);	
-		  });
 		  socket.on('join', function(room) {
-		  console.log(socket.id + ' is joining ' + room);
 		  roomMap[socket.id] = room;
 		  socket.join(room);
 		  });
+
+		  socket.on('requestSubmit', function(data) {
+		  var room = roomMap[socket.id];
+		  socket.broadcast.to(room).emit('addRequest', data);
+		  });
+
 		  socket.on('leave', function(room) {
-		  console.log(socket.id + ' is leaving ' + room);
 		  roomMap[socket.id] = undefined;
 		  socket.leave(room);
 		  });

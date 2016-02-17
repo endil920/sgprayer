@@ -15,7 +15,8 @@ var fullRequestSchema = new Schema({
     date: Date,
     weekNumber: Number,
     group: {type: mongoose.Schema.Types.ObjectId, ref: 'Group'}, 
-    message: String
+    message: String,
+    prayedCount: {type: Number, default: 0}
 });
 var FullRequest = mongoose.model('FullRequest', fullRequestSchema);
 

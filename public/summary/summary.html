@@ -27,9 +27,9 @@
 	</div>
 
 </div>
-
-
-
-<div ng-hide="summaryCtrl.store.summaryData">
+<div ng-show="summaryCtrl.store.loading">
+	Loading...
+</div>
+<div ng-hide="summaryCtrl.store.loading || summaryCtrl.store.summaryData">
 	No group {{summaryCtrl.store.group}} exists. Do you mean to <a target="_self" href="/">register?</a>
 </div>

@@ -9,7 +9,6 @@ var baseFunc = function(dateFunc) {
 	return function(req, res) {
 
 		var groupName = req.params.group;
-		group = groupName;
 
 		var year = req.params.year;
 		var month = req.params.month;
@@ -31,7 +30,7 @@ var baseFunc = function(dateFunc) {
         });
 
     };
-}
+};
 var thisWeek = baseFunc(function(d) {return d});
 var lastWeek = baseFunc(WeekCalculator.previousWeek);
 module.exports.thisWeek = thisWeek;

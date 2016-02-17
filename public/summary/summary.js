@@ -4,10 +4,14 @@ angular.module('sgPrayerApp')
   function Store(dispatcher) {
     var view = this;
     view.current = true;
-
+    view.loading = true;
     view.group = $routeParams.group;
 
+    dispatcher.loadedEvent.subscribe(function() {
+view.loading = false;
+    });
     dispatcher.dataEvent.subscribe(function(data) {
+
       view.summaryData = data.summaryData;
       view.requests = data.requests;
       view.startDate = data.startDate;
@@ -16,6 +20,7 @@ angular.module('sgPrayerApp')
 
     dispatcher.updateDataEvent.subscribe(function(newData) {
       view.requests.push(newData);
+      
       console.log(newData);
       if (!newData.local) {
         $rootScope.$digest();
@@ -34,88 +39,114 @@ angular.module('sgPrayerApp')
   }
 }])
 .factory('SummaryDispatcher', function() {
+	var loadedEvent = new Rx.Subject();
   var dataEvent = new Rx.Subject();
   var updateDataEvent = new Rx.Subject();
   var currentEvent = new Rx.Subject();
   return {
-    dataEvent: dataEvent,
-    updateDataEvent: updateDataEvent,
-    currentEvent: currentEvent
+	  loadedEvent: loadedEvent,
+dataEvent: dataEvent,
+updateDataEvent: updateDataEvent,
+currentEvent: currentEvent
   }
 })
+.service('checkGroup', ['$q', '$http', function($q, $http) {
+	return {
+		check: function(group) {
+			       var deferred = $q.defer();
+			       $http.get('/groups/' + group).then(function(response) {
+				       if (response.data) {
+					       console.log('da response' + response.data);
+					       deferred.resolve(response.data);
+				       } else {
+					       console.log('no response ' + response.data);
+					       deferred.reject(response.data);
+				       }
+			       });
+			       return deferred.promise;
+		       }
+	};
+}])
 .service('getRequests', ['$http', 'SummaryDispatcher', function($http, SummaryDispatcher) {
-  return  {
-    fetch: function(base, group, date) {
-      var year = date.getFullYear();
-      var month = date.getMonth();
-      var day = date.getDate();
+	return  {
+		fetch: function(base, group, date) {
+			       var year = date.getFullYear();
+			       var month = date.getMonth();
+			       var day = date.getDate();
 
-      $http.get('/' + base + '/' + group + '/year/' + year
-                + '/month/' + month + '/day/' + day).then(function(response) {
-
-        SummaryDispatcher.dataEvent.onNext({
-          summaryData: response.data
-          , requests: response.data.requests
-          , startDate: response.data.startDate
-          , endDate: response.data.endDate
-        });
-      });
-    }
-  }
+			       $http.get('/' + base + '/' + group + '/year/' + year
+				       + '/month/' + month + '/day/' + day).then(function(response) {
+				       SummaryDispatcher.loadedEvent.onNext();
+				       SummaryDispatcher.dataEvent.onNext({
+					       summaryData: response.data
+					       , requests: response.data.requests
+					       , startDate: response.data.startDate
+					       , endDate: response.data.endDate
+				       });
+			       });
+		       }
+	}
 }])
 .controller('SummaryCtrl'
-            , ['$routeParams'
-               , '$http'
-               , 'getRequests'
-               , 'SummaryDispatcher'
-               , 'SummaryStore'
-               , function($routeParams, $http, getRequests, SummaryDispatcher, SummaryStore) {
+		, ['$routeParams'
+		, '$http'
+		, 'checkGroup'
+		, 'getRequests'
+		, 'SummaryDispatcher'
+		, 'SummaryStore'
+		, function($routeParams, $http, checkGroup, getRequests, SummaryDispatcher, SummaryStore) {
 
-                 var view = this;
-                 var group = $routeParams.group;
-                 var date = new Date();
+			var view = this;
+			var group = $routeParams.group;
+			var date = new Date();
 
-                 view.store = SummaryStore.create(SummaryDispatcher);
+			view.store = SummaryStore.create(SummaryDispatcher);
 
-                 getRequests.fetch('requestsThisWeek', group, date);
+			checkGroup.check(group).then(function() {
 
-                 socket.emit('join', group);
+				getRequests.fetch('requestsThisWeek', group, date);
 
-                 view.showLast = function() {
-                   getRequests.fetch('requestsLastWeek', group, date);
+				socket.emit('join', group);
 
-                   SummaryDispatcher.currentEvent.onNext(false);
+				view.showLast = function() {
+					getRequests.fetch('requestsLastWeek', group, date);
 
-                   socket.emit('leave', group);
-                 };
+					SummaryDispatcher.currentEvent.onNext(false);
 
-                 view.showCurrent = function() {
-                   getRequests.fetch('requestsThisWeek', group, date);
+					socket.emit('leave', group);
+				};
 
-                   SummaryDispatcher.currentEvent.onNext(true);
-                   socket.emit('join', group);
-                 };
+				view.showCurrent = function() {
+					getRequests.fetch('requestsThisWeek', group, date);
 
-                 socket.on('addRequest', function(data) {
-                   SummaryDispatcher.updateDataEvent.onNext(data);
-                 });
+					SummaryDispatcher.currentEvent.onNext(true);
+					socket.emit('join', group);
+				};
 
-               }])
+				socket.on('addRequest', function(data) {
+					SummaryDispatcher.updateDataEvent.onNext(data);
+				});
+			}, function() {
+				console.log('rejected!!');
+				SummaryDispatcher.loadedEvent.onNext();
+			});	
+
+		}])
 .directive('requestsSummary', function() {
-  return {
-    restrict: 'E',
-    bindToController: true,
-    controller: 'SummaryCtrl',
-    controllerAs: 'summaryCtrl',
-    templateUrl: 'summary/summary.html'
-  };
+	return {
+		restrict: 'E',
+bindToController: true,
+controller: 'SummaryCtrl',
+controllerAs: 'summaryCtrl',
+templateUrl: 'summary/summary.html'
+	};
 })
 .directive('requestBox', function() {
-  return {
-    scope: {
-      author: '='
-    },
-    templateUrl: 'summary/request-box.html',
-    transclude: true
-  };
+	return {
+		scope: {
+			       author: '='
+		       },
+templateUrl: 'summary/request-box.html',
+transclude: true
+	};
 });
