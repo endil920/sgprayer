@@ -1,8 +1,19 @@
 <div class="request-box">
-	<h3>
-		{{author}}
-	</h3>
-	<div><i><ng-transclude></ng-transclude></i></div>
+
+    <h3>
+        {{author}}
+    </h3>
+
+    <div>
+        <i><ng-transclude></ng-transclude></i>
+    </div>
+    <div class="text-right" ng-click="prayFor()">Pray for {{author}}</div>
+    <span>Prayed for {{count}} times</span>
+
+
+
+
+
 
 </div>
 
