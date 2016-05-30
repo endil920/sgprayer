@@ -8,12 +8,7 @@
         <i><ng-transclude></ng-transclude></i>
     </div>
     <div class="text-right" ng-click="prayFor()">Pray for {{author}}</div>
-    <span>Prayed for {{count}} times</span>
-
-
-
-
-
+    <span>Prayed for {{count == null ? 0 : count}} times</span>
 
 </div>
 

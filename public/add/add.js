@@ -6,15 +6,11 @@ angular.module('sgPrayerApp')
 	view.submitting = false;
 	view.submit = function() {
 		if(view.message) {
-			console.log('submitting ' + view.name + ', ' + view.message);
-
-			SummaryDispatcher.updateDataEvent.onNext({name: view.name, message: view.message, local: true});
 
 			view.submitting = true;
-			$http.post('/addrequest/' + view.group, {name: view.name, message: view.message}).then(function(success) {
-
+			$http.post('/addrequest/' + view.group, {name: view.name, message: view.message}).then(function(content) {
 				socket.emit('requestSubmit',
-					{name: view.name, message: view.message});
+                    {name: content.data.name, message: content.data.message, _id: content.data._id});
 				view.name = '';
 				view.message = '';
 				view.confirmation = 'Submitted!';
@@ -25,7 +21,6 @@ angular.module('sgPrayerApp')
 			, function(error) {
 				view.confirmation = '';
 				view.errorMsg = 'request failed to submit. Please try again.';
-				console.log('did fail with message ' + error);
 				view.submitting = false;
 			});
 		}

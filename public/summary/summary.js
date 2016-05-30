@@ -20,7 +20,6 @@ angular.module('sgPrayerApp')
 
     dispatcher.updateDataEvent.subscribe(function(newData) {
       view.requests.push(newData);
-      console.log(newData);
       if (!newData.local) {
         $rootScope.$digest();
       }
@@ -30,7 +29,7 @@ angular.module('sgPrayerApp')
       view.requests.filter(function(r) {
         return r._id === wrappedId.id;
       }).map(function(r) {
-        r.prayedCount++;
+        r.prayedCount = r.prayedCount == null ? 1 : r.prayedCount + 1;
         if (wrappedId.reRender) {
           $rootScope.$digest();
         }
@@ -133,8 +132,6 @@ angular.module('sgPrayerApp')
                    view.prayFor = function(request) {
                      $http.post('/prayfor/' + request._id);
                      socket.emit('prayFor', request._id);
-                     SummaryDispatcher.prayForEvent.onNext({id: request._id});
-
                    };
 
                    socket.on('addRequest', function(data) {
@@ -142,7 +139,6 @@ angular.module('sgPrayerApp')
                    });
 
                    socket.on('prayFor', function(id) {
-                     console.log('oh hey!' + id);
                      SummaryDispatcher.prayForEvent.onNext({id: id, reRender: true});
                    });
 

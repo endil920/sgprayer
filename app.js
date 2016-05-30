@@ -27,6 +27,7 @@ var group;
 app.get('/main', function(req, res) {
   res.sendFile(__dirname + '/public/views/main.html');
 });
+
 app.post('/addgroup', function(req, res) {
   var groupName = req.body.group;
   var meetingDay = req.body.meetingDay;
@@ -44,6 +45,7 @@ app.post('/addgroup', function(req, res) {
     }
   });
 });
+
 app.post('/addrequest/:group', function(req, res) {
   var groupName = req.params.group;
   var name = req.body.name;
@@ -115,13 +117,13 @@ io.on('connection', function(socket) {
 
   socket.on('requestSubmit', function(data) {
     var room = roomMap[socket.id];
-    socket.broadcast.to(room).emit('addRequest', data);
+        io.in(room).emit('addRequest', data);
   });
 
   socket.on('prayFor', function(id) {
     var room = roomMap[socket.id];
     console.log(id);
-    socket.broadcast.to(room).emit('prayFor', id);
+    io.in(room).emit('prayFor', id);
   });
 
   socket.on('leave', function(room) {
