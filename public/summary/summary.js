@@ -82,9 +82,11 @@ angular.module('sgPrayerApp')
       var year = date.getFullYear();
       var month = date.getMonth();
       var day = date.getDate();
-
+console.log("year: " + year + ", month: " + month + ", day: " + day);
       $http.get('/' + base + '/' + group + '/year/' + year
                 + '/month/' + month + '/day/' + day).then(function(response) {
+                console.log(response.data);
+console.log('that is the data from the response for getting pqs');
         SummaryDispatcher.loadedEvent.onNext();
         SummaryDispatcher.dataEvent.onNext({
           summaryData: response.data

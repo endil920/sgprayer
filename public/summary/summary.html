@@ -9,7 +9,7 @@
         <h3 class="text-center">
             <a ng-show="summaryCtrl.store.current" class="text-left" ng-click="summaryCtrl.showLast()"><span class="glyphicon glyphicon-chevron-left"></span></a>
             <a ng-hide="summaryCtrl.store.current" class="text-left"><span class="glyphicon glyphicon-chevron-left disabled"></span></a>
-            {{summaryCtrl.store.startDate|date: 'MMM d, yyyy'}} to {{summaryCtrl.store.endDate|date: 'MMM d, yyyy'}}
+            {{summaryCtrl.store.startDate}} to {{summaryCtrl.store.endDate}}
             <a ng-hide="summaryCtrl.store.current" class="text-left" ng-click="summaryCtrl.showCurrent()"><span class="glyphicon glyphicon-chevron-right"></span></a>
             <a ng-show="summaryCtrl.store.current" class="text-left"><span class="glyphicon glyphicon-chevron-right disabled"></span></a>
         </h3>
