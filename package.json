@@ -15,6 +15,7 @@
     "jade": "~0.31.2",
     "jasmine-node": "^1.14.5",
     "moment": "2.11.0",
+    "moment-timezone": "0.5.7",
     "mongoose": "4.3.4",
     "mongoose-findorcreate": "0.1.2",
     "request": "^2.67.0",

@@ -1,4 +1,4 @@
-var moment = require('moment');
+var moment = require('moment-timezone');
 var models = require('../models/weeklyRequests');
 var Group = models.Group;
 var WeekCalculator = require('../util/weekCalculator.js');
@@ -13,7 +13,7 @@ var baseFunc = function(dateFunc) {
 		var year = req.params.year;
 		var month = req.params.month;
 		var day = req.params.day;
-		var date = dateFunc(moment({y: year, M: month, d: day}).toDate());
+		var date = dateFunc(moment.tz({y: year, M: month, d: day}, "America/Los_Angeles").format());
 
 		Group.findOne({name: groupName}, function(err, group) {
 			if (group) {
