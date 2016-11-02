@@ -1,5 +1,4 @@
-var moment = require('moment-timezone');
-var TIMEZONE = "America/Los_Angeles";
+var moment = require('moment');
 
 /* date is any date, beginning day is ISO format, from 1 to 7*/
 function subtractorFunc(d, b) {return d + (d < b ? 6 : - 1)}
@@ -8,17 +7,17 @@ function compute(date, basis) {
 	return startDay.get('year') * 100 + startDay.isoWeek();
 }
 function previousWeek(date) {
-	return moment.tz(date, TIMEZONE).add(-1, 'week');
+	return moment(date).add(-1, 'week');
 }
 function computePrev(date, basis) {
 	return subtract(date, basis, 1);
 }
 function subtract(date, beginningDay, weeks) {
-	var newDate = moment.tz(date, TIMEZONE).subtract(weeks, 'week');
+	var newDate = moment(date).subtract(weeks, 'week');
 	return compute(newDate, beginningDay);
 }
 function getStartOfWeek(date, basis) {
-	var dayOfWeek = moment.tz(date, TIMEZONE).isoWeekday();
+	var dayOfWeek = moment(date).isoWeekday();
 	var subtractor = subtractorFunc(dayOfWeek, basis);
 	return moment(date).add(-1 * subtractor, 'days');
 }
