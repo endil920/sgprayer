@@ -1,5 +1,6 @@
 var moment = require('moment-timezone');
 var TIMEZONE = "America/Los_Angeles";
+
 /* date is any date, beginning day is ISO format, from 1 to 7*/
 function subtractorFunc(d, b) {return d + (d < b ? 6 : - 1)}
 function compute(date, basis) {
